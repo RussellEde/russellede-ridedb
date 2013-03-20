@@ -3,8 +3,8 @@
 	echo("\n");
 ?>
 		<?php
-			if($currentpage != "addride.php") {
-				echo("<a href=\"logout.php\">&raquo; Logout</a>");
+			if($currentpage != 'addride.php') {
+				?><a href="logout.php">&raquo; Logout</a><?php
 			}
 		?>
 	</div>

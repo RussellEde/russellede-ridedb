@@ -1,0 +1,133 @@
+/* style.css */
+
+body, html {
+	background-image: url("/wp-content/themes/russellede.co.uk/images/backing.png");
+	background-repeat: repeat-x;
+	background-position: top;
+	background-attachment: fixed;
+	color: #000000;
+	font-family:  Calibri, Arial, Helvetica;
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+#button-no {
+	background: #ffbfbf;
+	border: 1px solid #cc0000;
+	color: #cc0000;
+	float: right;
+	font-size: 75px;
+	margin-bottom: 50px;
+	margin-right: 75px;
+	margin-top: 50px;
+	text-align: center;
+	width: 250px;
+}
+#button-no a,a:active,a:hover,a:visited {
+	color: #cc0000;
+	text-decoration: none;
+}
+#button-yes {
+	background: #d4ffbf;
+	border: 1px solid #44cc00;
+	color: #44cc00;
+	float: left;
+	font-size: 75px;
+	margin-bottom: 50px;
+	margin-left: 75px;
+	margin-top: 50px;
+	text-align: center;
+	width: 250px;
+}
+#button-yes a,a:active,a:hover,a:visited {
+	color: #44cc00;
+	text-decoration: none;
+}
+#button-front-row {
+	background: #FFF7BF;
+	border: 1px solid #ffdd00;
+	color: #ffdd00;
+	font-size: 75px;
+	margin-left: 75px;
+	margin-right: 70px;
+	margin-top: 50px;
+	text-align: center;
+	width: 570px;
+}
+#button-front-row a,a:active,a:hover,a:visited {
+	color: #ffdd00;
+	text-decoration: none;
+}
+#button-reverse {
+	background: #bfdfff;
+	border: 1px solid #0080ff;
+	color: #0080ff;
+	float: left;
+	font-size: 75px;
+	margin-left: 75px;
+	margin-right: 70px;
+	margin-top: 50px;
+	text-align: center;
+	width: 570px;
+}
+#button-reverse a,a:active,a:hover,a:visited {
+	color: #0080ff;
+	text-decoration: none;
+}
+#button-wrapper {
+	clear: both;
+	width: 100%;
+}
+#container {
+	height: auto;
+	min-height: 100%;
+}
+#header {
+	background: #990000;
+	background: -moz-linear-gradient(top, #cc0000 0%, #b30000 54%, #990000 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cc0000), color-stop(54%,#b30000), color-stop(100%,#990000));
+	background: -webkit-linear-gradient(top, #cc0000 0%,#b30000 54%,#990000 100%);
+	background: -o-linear-gradient(top, #cc0000 0%,#b30000 54%,#990000 100%);
+	background: -ms-linear-gradient(top, #cc0000 0%,#b30000 54%,#990000 100%);
+	background: linear-gradient(to bottom, #cc0000 0%,#b30000 54%,#990000 100%);
+	border-bottom: 1px solid #000000;
+	color: #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc0000', endColorstr='#990000',GradientType=0 );
+	font-size: 75px;
+	font-weight: bold;
+	height: 100px;
+	text-align: center;
+	width: 100%;
+	z-index: 10;
+}
+#main {
+	font-family: Calibri, Arial;
+	font-size: 24px;
+	padding-left: 150px;
+	padding-right: 150px;
+	padding-top: 100px;
+	text-align: left;
+}
+#notice {
+	background: #ffbfbf;
+	border: 1px dashed #cc0000;
+	color: #cc0000;
+	margin-bottom: 100px;
+	text-align: center;
+	width: 100%;
+}
+a, a:active, a:visited {
+	color: #660000;
+	text-decoration: none;
+}
+a:hover {
+	color: #cc0000;
+	text-decoration: underline;
+}
+li {
+	padding-bottom: 15px;
+}
+ul {
+	list-style-type: upper-roman;
+}
