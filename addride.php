@@ -41,7 +41,7 @@
 			if (is_numeric($_GET['special']))
 				$special = $_GET['special'];
 
-		mysql_query("INSERT INTO tblRideDate VALUES (NULL, '$rideid', '$timestamp', '$user->id', '0', $special);"); //Insert into DB, autonumber id, $rideid, $timestamp, user id, valid ride, special
+		mysql_query("INSERT INTO tblRideLog VALUES (NULL, '$rideid', '$timestamp', '$user->id', '0', $special);"); //Insert into DB, autonumber id, $rideid, $timestamp, user id, valid ride, special
 		echo("\n\t\t<div id=\"notice\">Added a ride on \""); //Open output Notice Box to state that ride has been added
 		$result = mysql_query("SELECT * FROM tblRideList WHERE idsRide = $rideid"); //Retrieve ride information from DB
 		$num_rows = mysql_num_rows($result);

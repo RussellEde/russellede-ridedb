@@ -67,7 +67,7 @@
 			echo("\n\t\t\t<li>");
 			//Check if Ride has been ridden today
 			$start_of_day = strtotime('midnight');
-			$check_ride_query = mysql_query("SELECT dtmRideDate FROM tblRideDate WHERE dtmRideDate > $start_of_day AND intRideID = $row[idsRide] AND intUserID = $user->id");
+			$check_ride_query = mysql_query("SELECT dtmRideDate FROM tblRideLog WHERE dtmRideDate > $start_of_day AND intRideID = $row[idsRide] AND intUserID = $user->id");
 			$check_ride_number = mysql_num_rows($check_ride_query);
 			if($check_ride_number != 0) {
 				?><img alt="Y" src="images/tick.png" /> <?php
