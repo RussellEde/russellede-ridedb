@@ -3,7 +3,8 @@
 
 define('NOLOGIN', 1);
 require('includes/start.php');
-$refresh = "login.php";
+$refresh = 'login.php';
+$showlogout = false;
 
 $msg = $_GET['msg'];
 

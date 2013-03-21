@@ -1,6 +1,7 @@
 <?php 
 
 define('NOLOGIN', 1);
+$showlogout = false;
 require('includes/start.php');
 
 $msg = $_GET['msg']; 
