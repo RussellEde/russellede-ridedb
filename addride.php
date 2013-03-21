@@ -82,4 +82,3 @@
 	//Include footer file
 	include("footer.php");
 	
-?>

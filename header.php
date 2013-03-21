@@ -40,5 +40,6 @@
 			echo('Ride DB');
 		}
 			
-	?></div>
+	?>
+	</div>
 	<div id="main">

@@ -38,4 +38,5 @@ Password: <input type="password" name="password" /><br /><br />
 <input type="submit" value="Submit" /><br /><br /> 
 </div> 
 </form>
-<?php include("footer.php"); ?>
+<?php
+	include("footer.php");
