@@ -18,7 +18,7 @@
 			$row = mysql_fetch_row($result);
 			$parkid = $row[0];
 		}
-		if($ridetaken == 1) {
+		if (isset($ridetaken)) {
 			echo("<meta http-equiv=\"refresh\" content=\"2;url=ridelist.php?parkid=$parkid\">");
 		}
 	?>
@@ -27,12 +27,12 @@
 <body>
 <div id="container">
 	<div id="header"><?php
-		if($rideid != 0) {
+		if ((isset($rideid)) && ($rideid != 0)) {
 			//Use Ride ID to find Park ID
 			$result = mysql_query("SELECT tblParkList.chrParkName from tblParkList, tblRideList WHERE tblParkList.idsPark = tblRideList.intParkID AND tblRideList.idsRide = $rideid");
 			$row = mysql_fetch_row($result);
 			echo($row[0]);
-		} elseif($parkid != 0) {
+		} elseif ((isset($parkid)) && ($parkid != 0)) {
 			$result = mysql_query("SELECT chrParkName from tblParkList WHERE idsPark = $parkid");
 			$row = mysql_fetch_row($result);
 			echo($row[0]);

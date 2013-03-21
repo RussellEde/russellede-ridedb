@@ -31,7 +31,7 @@
 	include('header.php');
 	
 	//If $ridetaken set, then add ride occurence to DB
-	if($ridetaken == 1) {
+	if(isset($ridetaken)) {
 		$timestamp = time(); //Create timestamp
 		$date = date('d-M-y', $timestamp); //Format for display timestamp as dd-MMM-yy
 		$time = date('H:i', $timestamp); //Format for display timestamp as hh:mm (24h)
@@ -49,7 +49,7 @@
 			if($row['ysnTheRide'] == 1) {
 				echo('The ');
 			}
-			echo($row[chrRideName]);
+			echo($row['chrRideName']);
 		}
 		echo("\" at $time on $date.</div>"); //Output date/time of occurrence and close Notice Box
 		
