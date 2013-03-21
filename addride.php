@@ -1,37 +1,25 @@
 <?php
 	//RideDB Add Ride Module [addride.php]
-	require('config.php'); //Require Configuration File
+	require('includes/start.php');
 	
-	//First, check login
-	if(!$user){
-		header('Location: login.php'); //If not logged in, redirect to login page
-		die('You need to log in.'); // prevent further execution
+	$rideid = get_int_param('rideid', null);
+	$ridetaken = get_bool_param('ridetaken', false);
+	
+	$sql = "select pl.idsPark, pl.chrParkName from tblParkList pl join tblRideList rl on pl.idsPark = rl.intParkID where rl.idsRide = $rideid";
+	$result = mysql_query($sql);
+	if ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$parkid = $row['idsPark'];
+		$title = $row['chrParkName'];
 	}
 	
-	//Check for POST Variables
-	if(isset($_GET['rideid'])) {
-		$rideid = $_GET['rideid']; //Check to see if a Ride has been selected
-		if(!is_numeric($rideid)) {
-			header('Location: ridelist.php'); //If illegal input detected, return to Parks & Rides Listings
-			die('That ride ID is invalid.'); // prevent further execution
-		}
-	} else {
-			header('Location: ridelist.php'); //If $rideid not set, return to Parks & Rides Listings
-			die('That ride ID is invalid.'); // prevent further execution
-	}
-	if(isset($_GET['ridetaken'])) {
-		$ridetaken = $_GET['ridetaken']; //Check to see if a Ride has been taken
-		if(!is_numeric($ridetaken)) {
-			header('Location: ridelist.php'); //If illegal input detected, return to Parks & Rides Listings
-			die('That ride taken is invalid.'); // prevent further execution
-		}
-	}
+	if ($ridetaken)
+		$refresh = "ridelist.php?parkid=$parkid";
+		
 	
-	//Include header file
-	include('header.php');
+	include('includes/header.php');
 	
 	//If $ridetaken set, then add ride occurence to DB
-	if(isset($ridetaken)) {
+	if($ridetaken) {
 		$timestamp = time(); //Create timestamp
 		$date = date('d-M-y', $timestamp); //Format for display timestamp as dd-MMM-yy
 		$time = date('H:i', $timestamp); //Format for display timestamp as hh:mm (24h)
@@ -79,6 +67,6 @@
 		}
 	}
 	
-	//Include footer file
-	include("footer.php");
+	$showlogout = false;
+	include('includes/footer.php');
 	

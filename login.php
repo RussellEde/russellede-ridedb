@@ -1,6 +1,7 @@
 <?php 
 
-require("config.php"); 
+define('NOLOGIN');
+require('includes/start.php');
 
 $msg = $_GET['msg']; 
 
@@ -21,14 +22,14 @@ if($_POST){
 
 if(lumos_check_login()){ 
 	//Redirect to account page if already logged in 
-	header("Location: ridelist.php"); 
+	header("Location: ridelist.php");
+	die('Already logged in.');
 }
 
-include("header.php");
+$title = 'Login';
+include('includes/header.php');
 
 ?>
-<h2>Login</h2> 
-
 <form action="login.php?<?php echo $_SERVER['QUERY_STRING']; ?>" method="post"> 
 <div id="login"> 
 <?php echo $msg; ?><br /> 
@@ -39,4 +40,7 @@ Password: <input type="password" name="password" /><br /><br />
 </div> 
 </form>
 <?php
-	include("footer.php");
+	include('includes/footer.php');
+	
+	
+	

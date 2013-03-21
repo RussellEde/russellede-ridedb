@@ -1,41 +1,15 @@
 <?php
-	
 	//RideDB Park & Rides Listings Module [ridelist.php]
-	require('config.php'); //Require Configuration File
+	require('includes/start.php');
 	
-	//First, check login
-	if(!$user){ 
-		header('Location: login.php'); //If not logged in, redirect to login page
-		die('You need to log in.'); // prevent further execution
-	}
-	
-	//Check for POST Variables
-	if(isset($_GET['parkid'])) {
-		$parkid = $_GET['parkid']; //Check to see if a Park has been selected
-		if(!is_numeric($parkid)) {
-			$parkid = 0; //If illegal input detected, set $parkid to 0
-			die('That park ID is invalid.'); // prevent further execution
-		}
-	} else {
-		$parkid = 0; //If no Park selected, set $parkid to 0
-	}
-	if(isset($_GET['rideid'])) {
-		$rideid = $_GET['rideid']; //Check to see if a Ride has been selected
-		if(!is_numeric($rideid)) {
-			$rideid = 0; //If illegal input detected, set $rideid to 0
-		}
-	} else {
-		$rideid = 0; //If no Ride selected, set $rideid to 0
-	}
-	
-	//Include header file
-	include('header.php');
-	
+	$parkid = get_int_param('parkid', null);
+
 	//Set row counter to 1
 	$count = 1;
 	
 	//If no Park selected, list all Parks «In future, add country selection page»
 	if($parkid == 0) {
+		require('includes/header.php');
 		echo("\n");
 		$result = mysql_query("SELECT * FROM tblParkList ORDER BY chrParkName ASC"); //List all appropriate parks alphabetically
 		$num_rows = mysql_num_rows($result);
@@ -57,6 +31,14 @@
 	
 	//If a Park selected, list all appropriate Rides
 	if($parkid != 0) {
+		$result = mysql_query("select * from tblParkList where idsPark = $parkid");
+		if ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+			$title = $row['chrParkName'];
+		else
+			die('Invalid park ID');
+		
+		require('includes/header.php');
+		
 		echo("\n\t\t<a href=\"ridelist.php\">&laquo; Back to Park List</a>\n"); //Link to Park listings
 		$result = mysql_query("SELECT * FROM tblRideList WHERE intParkID = $parkid AND ysnClosed = 0 ORDER BY chrRideName ASC"); //List all appropriate rides alphabetically
 		$num_rows = mysql_num_rows($result);
@@ -88,6 +70,5 @@
 		echo("\n\t\t</ol>"); //Close ordered list
 	}
 	
-	//Include footer file
-	include('footer.php');
+	include('includes/footer.php');
 	

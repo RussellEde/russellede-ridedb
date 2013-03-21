@@ -1,31 +1,23 @@
 <?php
-	
 	//RideDB Trip Listings Module [triplist.php]
-	require('config.php'); //Require Configuration File
+	require('includes/start.php');
 	
-	//First, check login
-	if(!$user){ 
-		header('Location: login.php'); //If not logged in, redirect to login page
-		die('You need to log in.'); // prevent further execution
-	}
-	
-	// check for GET params
-	$uid = $user->id;
 	$my = 'My';
-	if (isset($_GET['uid'])) {
-		if (is_numeric($_GET['uid'])) {
-			$uid = (int)$_GET['uid'];
-			$result = mysql_query("select username from tblUsers where id = $uid");
-			if ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-				$my = $row['username'].'\'s';
-			} else {
-				die('That user ID is invalid.');
-			}
-		}
+		
+	$uid = get_int_param('uid');
+	if (($uid === NULL) || ($uid == $user->id)) {
+		$uid = $user->id;
+	} else {
+		$result = mysql_query("select username from tblUsers where id = $uid");
+		if ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+			$my = $row['username'].'\'s';
+		else
+			$uid = $user->id;
 	}
 	
-	include('header.php');	
-	echo "<h2>$my Trips</h2>";
+	
+	$title = "$my Trips";
+	include('includes/header.php');
 	
 	$sql = <<<EOF
 select distinct
@@ -63,7 +55,7 @@ EOF;
 ?></ul><?php
 
 	//Include footer file
-	include('footer.php');
+	include('includes/footer.php');
 
 
 

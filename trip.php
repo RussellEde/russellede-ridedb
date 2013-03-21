@@ -1,41 +1,28 @@
 <?php
-	
 	//RideDB Trip Module [trip.php]
-	require('config.php'); //Require Configuration File
+	require('includes/start.php');
 	
-	//First, check login
-	if(!$user){ 
-		header('Location: login.php'); //If not logged in, redirect to login page
-		die('You need to log in.'); // prevent further execution
-	}
-	
-	// check for GET params
-	$uid = $user->id;
 	$my = 'My';
-	if (isset($_GET['uid'])) {
-		if (is_numeric($_GET['uid'])) {
-			$uid = (int)$_GET['uid'];
-			if ($uid != $user->id) {
-				$result = mysql_query("select username from tblUsers where id = $uid");
-				if ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-					$my = $row['username'].'\'s';
-				} else {
-					die('That user ID is invalid.');
-				}
-			}
-		}
-	}
-	
-	if (isset($_GET['date'])) {
-		$date = mysql_real_escape_string($_GET['date']);
+		
+	$uid = get_int_param('uid');
+	if (($uid === NULL) || ($uid == $user->id)) {
+		$uid = $user->id;
 	} else {
-		die('No date specified.');
+		$result = mysql_query("select username from tblUsers where id = $uid");
+		if ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+			$my = $row['username'].'\'s';
+		else
+			$uid = $user->id;
 	}
 	
-	include('header.php');	
-	echo "<h2>$my Trip on $date</h2>";
+	$date = get_string_param('date');
+	if ($date === null)
+		die('No date specified.');
 	
-	echo '<h3>Parks Visited</h3>';
+	$title = "$my Trip on $date";
+	include('includes/header.php');	
+	
+	echo '<h2>Parks Visited</h2>';
 	
 	$sql = <<<EOF
 select distinct park from (
@@ -66,7 +53,7 @@ EOF;
 	
 ?></ul><?php
 	
-	echo '<h3>Rides Ridden</h3>';
+	echo '<h2>Rides Ridden</h2>';
 	
 	$specials = load_special_types();
 	
@@ -102,8 +89,7 @@ EOF;
 	
 ?></ul><?php
 
-	//Include footer file
-	include('footer.php');
+	include('includes/footer.php');
 
 
 
