@@ -1,6 +1,6 @@
 <?php 
 
-define('NOLOGIN');
+define('NOLOGIN', 1);
 require('includes/start.php');
 
 $msg = $_GET['msg']; 
