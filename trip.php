@@ -1,6 +1,6 @@
 <?php
 	
-	//RideDB Park & Rides Listings Module [ridelist.php]
+	//RideDB Trip Module [trip.php]
 	require('config.php'); //Require Configuration File
 	
 	//First, check login
