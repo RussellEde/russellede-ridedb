@@ -39,6 +39,17 @@
 	}
 	
 	// 
+	// functions to obtain post parameters safely
+	// 
+	
+	function post_string_param($param, $default=null) {
+		if (isset($_POST[$param]))
+			return mysql_real_escape_string($_POST[$param]);
+		
+		return $default;
+	}
+	
+	// 
 	// functions to load things from the database
 	// 
 	
