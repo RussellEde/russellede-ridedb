@@ -39,6 +39,7 @@ Password: <input type="password" name="password" /><br /><br />
 <input type="submit" value="Submit" /><br /><br /> 
 </div> 
 </form>
+OR <a href="register.php">Register an Account</a>.
 <?php
 	$showlogout = false;
 	include('includes/footer.php');
