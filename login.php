@@ -1,7 +1,6 @@
 <?php 
 
 define('NOLOGIN', 1);
-$showlogout = false;
 require('includes/start.php');
 
 $msg = $_GET['msg']; 
@@ -41,6 +40,7 @@ Password: <input type="password" name="password" /><br /><br />
 </div> 
 </form>
 <?php
+	$showlogout = false;
 	include('includes/footer.php');
 	
 	

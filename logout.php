@@ -4,7 +4,6 @@
 define('NOLOGIN', 1);
 require('includes/start.php');
 $refresh = 'login.php';
-$showlogout = false;
 
 $msg = $_GET['msg'];
 
@@ -15,7 +14,8 @@ lumos_logout();
 
 ?>
 <div id="notice"> 
-You are now logged out of <?=$title?>.<br />You will now be redirected to the login page.</div> 
+You are now logged out of the Ride DB.<br />You will now be redirected to the login page.</div> 
 </form>
 <?php
-  include('includes/footer.php');
+	$showlogout = false;
+	include('includes/footer.php');
