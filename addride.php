@@ -93,9 +93,11 @@
 		<div id="form">
 			<form action="addride.php" method="post">
 				<!-- First, list all hidden form elements -->
-				<input type="hidden" name="parkid" value="<?=$parkid?>" />
-				<input type="hidden" name="rideid" value="<?=$rideid?>" />
-				<input type="hidden" name="ridetaken" value="true" />
+				<fieldset class="hidden" title="Hidden Form Inputs">
+					<input type="hidden" name="parkid" value="<?=$parkid?>" />
+					<input type="hidden" name="rideid" value="<?=$rideid?>" />
+					<input type="hidden" name="ridetaken" value="true" />
+				</fieldset>
 				<!-- Next, create a table to correctly position form elements -->
 				<table>
 					<!-- Question is the form's context, so Table Head element -->
@@ -107,8 +109,8 @@
 					<!-- Buttons are always at the bottom of the form, so Table Foot element -->
 					<tfoot>
 						<tr>
-							<td class="form_left"><input type="submit" name="button-yes" id="button-yes" value="Yes" /></td>
-							<td class="form_right"><input type="submit" name="button-no" id="button-no" value="No" /></td>
+							<td class="form_left"><input id="button-yes" name="button-yes" type="submit" value="Yes" /></td>
+							<td class="form_right"><input id="button-no" name="button-no" type="submit" value="No" /></td>
 						</tr>
 						<?php
 							//Create Extra Buttons for any Relevant Specials
@@ -117,15 +119,15 @@
 								$id = $row2['idsSpecialType'];
 								$name = $row2['chrName'];
 								$shortname = $row2['chrShortName'];
-								echo("\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td colspan=\"2\"><input type=\"submit\" name=\"button-$id\" id=\"button-$shortname\" value=\"$name\" />\n\t\t\t\t\t\t</tr>");
+								echo("\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td colspan=\"2\"><input id=\"button-$shortname\" name=\"button-$id\" type=\"submit\" value=\"$name\" /></td>\n\t\t\t\t\t\t</tr>");
 							}
 						?>
 					</tfoot>
 					<!-- User Input is the body of the form, so Table Body element -->
 					<tbody>
 						<tr>
-							<td class="form_left"><label for="timestamp">Time Ride Taken:</label></td>
-							<td class="form_right"><input class="form_input_box" type="text" name="timestamp" value="<?=$timestamp?>" /></td>
+							<td class="form_left"><label for="input-timestamp">Time Ride Taken:</label></td>
+							<td class="form_right"><input class="form_input_box" id="input-timestamp" name="timestamp" type="text" value="<?=$timestamp?>" /></td>
 						</tr>
 					</tbody>
 				</table>

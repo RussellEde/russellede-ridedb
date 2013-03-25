@@ -135,6 +135,12 @@ input.form_input_box {
 	height: 15px;
 	padding: 5px;
 }
+fieldset.hidden {
+	border: 0px;
+	height: 0px;
+	margin: 0px;
+	padding: 0px;
+}
 li {
 	padding-bottom: 15px;
 }
