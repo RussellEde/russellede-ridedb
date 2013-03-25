@@ -107,8 +107,8 @@
 					<!-- Buttons are always at the bottom of the form, so Table Foot element -->
 					<tfoot>
 						<tr>
-							<td><input type="submit" name="button-yes" id="button-yes" value="Yes" /></td>
-							<td><input type="submit" name="button-no" id="button-no" value="No" /></td>
+							<td class="form_left"><input type="submit" name="button-yes" id="button-yes" value="Yes" /></td>
+							<td class="form_right"><input type="submit" name="button-no" id="button-no" value="No" /></td>
 						</tr>
 						<?php
 							//Create Extra Buttons for any Relevant Specials
@@ -124,7 +124,7 @@
 					<!-- User Input is the body of the form, so Table Body element -->
 					<tbody>
 						<tr>
-							<td class="form_left">Time Ride Taken:</td>
+							<td class="form_left"><label for="timestamp">Time Ride Taken:</label></td>
 							<td class="form_right"><input class="form_input_box" type="text" name="timestamp" value="<?=$timestamp?>" /></td>
 						</tr>
 					</tbody>

@@ -22,7 +22,7 @@ body, html {
 	margin-top: 25px;
 	margin-right: 0px;
 	text-align: center;
-	width: 175px;
+	width: 100%;
 }
 #button-no a,a:active,a:hover,a:visited {
 	color: #cc0000;
@@ -38,7 +38,7 @@ body, html {
 	margin-top: 25px;
 	margin-right: 0px;
 	text-align: center;
-	width: 175px;
+	width: 100%;
 }
 #button-yes a,a:active,a:hover,a:visited {
 	color: #44cc00;
@@ -54,7 +54,7 @@ body, html {
 	margin-right: 0px;
 	margin-top: 25px;
 	text-align: center;
-	width: 384px;
+	width: 100%;
 }
 #button-front-row a,a:active,a:hover,a:visited {
 	color: #ffdd00;
@@ -70,7 +70,7 @@ body, html {
 	margin-right: 0px;
 	margin-top: 25px;
 	text-align: center;
-	width: 384px;
+	width: 100%;
 }
 #button-reverse a,a:active,a:hover,a:visited {
 	color: #0080ff;
