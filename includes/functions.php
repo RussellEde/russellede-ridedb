@@ -42,6 +42,31 @@
 	// functions to obtain post parameters safely
 	// 
 	
+	function post_int_param($param, $default=null) {
+		if (isset($_POST[$param]))
+			if (is_numeric($_POST[$param]))
+				if ($_POST[$param] == (int)$_POST[$param])
+					return (int)$_POST[$param];
+		
+		return $default;
+	}
+	
+	function post_bool_param($param, $default=null) {
+		if (isset($_POST[$param]))
+			switch ($_POST[$param]) {
+				case '1':
+				case 'true':
+				case 'yes':
+					return true;
+				case '0':
+				case 'false':
+				case 'no':
+					return false;
+			}
+		
+		return $default;
+	}
+	
 	function post_string_param($param, $default=null) {
 		if (isset($_POST[$param]))
 			return mysql_real_escape_string($_POST[$param]);
