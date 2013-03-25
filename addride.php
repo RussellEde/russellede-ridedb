@@ -39,8 +39,12 @@
 	
 	//If $ridetaken set, then add ride occurence to DB
 	if ($ridetaken) {
-		$timestamp = time(); //Create timestamp
-		$date = date('d-M-y', $timestamp); //Format for display timestamp as dd-MMM-yy
+		// get the time that the ride was taken from the form
+		$timestamp = strtotime($_POST['timestamp']);		
+		if ($timestamp === false)
+			$timestamp = time(); // default to now
+		
+		$date = date('d M y', $timestamp); //Format for display timestamp as dd-MMM-yy
 		$time = date('H:i', $timestamp); //Format for display timestamp as hh:mm (24h)
 		
 		// if we submitted with button-yes, then it's not a special
@@ -82,11 +86,15 @@
 			// ride name
 			$ridename = $row['chrRideName'];
 			if ($row['ysnTheRide']) $ridename = 'The '.$ridename;
+			
+			$timestamp = date('Y-m-d H:i:s');
 ?>
 		<div id="notice">Confirmation Required</div>
 		Do you really want to add a ride on <?=$ridename?>?
 		<div id="button-wrapper">
 			<form action="addride.php" method="post">
+				Time ride taken:
+				<input type="text" name="timestamp" value="<?=$timestamp?>" />
 				<input type="hidden" name="rideid" value="<?=$rideid?>" />
 				<input type="hidden" name="ridetaken" value="true" />
 				<input type="submit" name="button-yes" id="button-yes" value="Yes" />
