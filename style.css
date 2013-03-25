@@ -1,7 +1,7 @@
 /* style.css */
 
 body, html {
-	background-image: url("/wp-content/themes/russellede.co.uk/images/backing.png");
+	background-image: url("images/backing.png");
 	background-repeat: repeat-x;
 	background-position: top;
 	background-attachment: fixed;
@@ -16,14 +16,13 @@ body, html {
 	background: #ffbfbf;
 	border: 1px solid #cc0000;
 	color: #cc0000;
-	float: right;
-	font-size: 75px;
-	margin-bottom: 50px;
-	margin-right: 75px;
-	margin-top: 50px;
-	text-align: center;
-	width: 250px;
 	cursor: pointer;
+	font-size: 75px;
+	margin-left: 0px;
+	margin-top: 25px;
+	margin-right: 0px;
+	text-align: center;
+	width: 175px;
 }
 #button-no a,a:active,a:hover,a:visited {
 	color: #cc0000;
@@ -33,14 +32,13 @@ body, html {
 	background: #d4ffbf;
 	border: 1px solid #44cc00;
 	color: #44cc00;
-	float: left;
-	font-size: 75px;
-	margin-bottom: 50px;
-	margin-left: 75px;
-	margin-top: 50px;
-	text-align: center;
-	width: 250px;
 	cursor: pointer;
+	font-size: 75px;
+	margin-left: 0px;
+	margin-top: 25px;
+	margin-right: 0px;
+	text-align: center;
+	width: 175px;
 }
 #button-yes a,a:active,a:hover,a:visited {
 	color: #44cc00;
@@ -50,13 +48,13 @@ body, html {
 	background: #FFF7BF;
 	border: 1px solid #ffdd00;
 	color: #ffdd00;
-	font-size: 75px;
-	margin-left: 75px;
-	margin-right: 70px;
-	margin-top: 50px;
-	text-align: center;
-	width: 570px;
 	cursor: pointer;
+	font-size: 75px;
+	margin-left: 2px;
+	margin-right: 0px;
+	margin-top: 25px;
+	text-align: center;
+	width: 384px;
 }
 #button-front-row a,a:active,a:hover,a:visited {
 	color: #ffdd00;
@@ -66,14 +64,13 @@ body, html {
 	background: #bfdfff;
 	border: 1px solid #0080ff;
 	color: #0080ff;
-	float: left;
-	font-size: 75px;
-	margin-left: 75px;
-	margin-right: 70px;
-	margin-top: 50px;
-	text-align: center;
-	width: 570px;
 	cursor: pointer;
+	font-size: 75px;
+	margin-left: 2px;
+	margin-right: 0px;
+	margin-top: 25px;
+	text-align: center;
+	width: 384px;
 }
 #button-reverse a,a:active,a:hover,a:visited {
 	color: #0080ff;
@@ -86,6 +83,10 @@ body, html {
 #container {
 	height: auto;
 	min-height: 100%;
+}
+#form {
+	text-align: center;
+	width: 100%;
 }
 #header {
 	background: #990000;
@@ -117,7 +118,7 @@ body, html {
 	background: #ffbfbf;
 	border: 1px dashed #cc0000;
 	color: #cc0000;
-	margin-bottom: 100px;
+	margin-bottom: 50px;
 	text-align: center;
 	width: 100%;
 }
@@ -129,9 +130,33 @@ a:hover {
 	color: #cc0000;
 	text-decoration: underline;
 }
+input.form_input_box {
+	border: 1px solid #cc0000;
+	height: 15px;
+	padding: 5px;
+}
 li {
 	padding-bottom: 15px;
 }
+ol {
+	list-style-type: decimal;
+}
+table {
+	width: 100%;
+}
+td.form_left {
+	padding-right: 20px;
+	text-align: right;
+}
+td.form_right {
+	padding-left: 20px;
+	text-align: left;
+}
+th.form_question {
+	border-bottom: 1px dashed #cc0000;
+	text-align: center;
+	width: 100%;
+}
 ul {
-	list-style-type: upper-roman;
+	list-style-type: decimal;
 }

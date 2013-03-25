@@ -90,32 +90,48 @@
 			$timestamp = date('Y-m-d H:i:s');
 ?>
 		<div id="notice">Confirmation Required</div>
-		Do you really want to add a ride on <?=$ridename?>?
-		<div id="button-wrapper">
+		<div id="form">
 			<form action="addride.php" method="post">
-				Time ride taken:
-				<input type="text" name="timestamp" value="<?=$timestamp?>" />
+				<!-- First, list all hidden form elements -->
+				<input type="hidden" name="parkid" value="<?=$parkid?>" />
 				<input type="hidden" name="rideid" value="<?=$rideid?>" />
 				<input type="hidden" name="ridetaken" value="true" />
-				<input type="submit" name="button-yes" id="button-yes" value="Yes" />
-				<input type="hidden" name="parkid" value="<?=$parkid?>" />
-				<input type="submit" name="button-no" id="button-no" value="No" />
-
+				<!-- Next, create a table to correctly position form elements -->
+				<table>
+					<!-- Question is the form's context, so Table Head element -->
+					<thead>
+						<tr>
+							<th class="form_question" colspan="2">Do you really want to add a ride on "<?=$ridename?>?"</th>
+						</tr>
+					</thead>
+					<!-- Buttons are always at the bottom of the form, so Table Foot element -->
+					<tfoot>
+						<tr>
+							<td><input type="submit" name="button-yes" id="button-yes" value="Yes" /></td>
+							<td><input type="submit" name="button-no" id="button-no" value="No" /></td>
+						</tr>
+						<?php
+							//Create Extra Buttons for any Relevant Specials
+							$result = mysql_query("select * from tblSpecialType s join tblRideSpecial rs on s.idsSpecialType = rs.intSpecialID where rs.intRideID = $rideid");
+							while ($row2 = mysql_fetch_array($result, MYSQL_ASSOC)) {
+								$id = $row2['idsSpecialType'];
+								$name = $row2['chrName'];
+								$shortname = $row2['chrShortName'];
+								echo("\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td colspan=\"2\"><input type=\"submit\" name=\"button-$id\" id=\"button-$shortname\" value=\"$name\" />\n\t\t\t\t\t\t</tr>");
+							}
+						?>
+					</tfoot>
+					<!-- User Input is the body of the form, so Table Body element -->
+					<tbody>
+						<tr>
+							<td class="form_left">Time Ride Taken:</td>
+							<td class="form_right"><input class="form_input_box" type="text" name="timestamp" value="<?=$timestamp?>" /></td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
 <?php
-			// create extra buttons for any relevant specials
-			$result = mysql_query("select * from tblSpecialType s join tblRideSpecial rs on s.idsSpecialType = rs.intSpecialID where rs.intRideID = $rideid");
-			while ($row2 = mysql_fetch_array($result, MYSQL_ASSOC)) {
-				$id = $row2['idsSpecialType'];
-				$name = $row2['chrName'];
-				$shortname = $row2['chrShortName'];
-?>
-				<input type="hidden" name="ridetaken" value="true" />
-				<input type="submit" name="button-<?=$id?>" id="button-<?=$shortname?>" value="<?=$name?>" />
-<?php
-			}
-		echo '</form></div>';
-		} else {
-			echo 'Couldn\'t get data from the database.';
 		}
 	}
 	
