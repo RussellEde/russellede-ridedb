@@ -14,34 +14,69 @@
 		$title = $row['chrParkName'];
 	}
 	
-	if ($ridetaken)
-		$refresh = "ridelist.php?parkid=$parkid";
+	if ($ridetaken) {
+		// form has been submitted; find out what the name of the button was
+		foreach (array_keys($_POST) as $key) {
+			if (substr($key, 0, 6) == 'button')
+				$tmp_arr = explode('-', $key, 2);
+				if (isset($tmp_arr))
+					$btn_name = $tmp_arr[1];
+		}
 		
+		//die($btn_name);
+
+		// we didn't take the ride; go back to the ride list
+		if ($btn_name == 'no') {
+			header("Location: ridelist.php?parkid=$parkid");
+			die('Ride not taken; do back to ride list.');
+		}
+		
+		// we did take the ride; we'll want an auto-refresh after we display the message
+		$refresh = "ridelist.php?parkid=$parkid";
+	}
 	
 	include('includes/header.php');
 	
 	//If $ridetaken set, then add ride occurence to DB
-	if($ridetaken) {
+	if ($ridetaken) {
 		$timestamp = time(); //Create timestamp
 		$date = date('d-M-y', $timestamp); //Format for display timestamp as dd-MMM-yy
 		$time = date('H:i', $timestamp); //Format for display timestamp as hh:mm (24h)
 		
-		$special = ''.post_int_param('special', 'null');
-
-		mysql_query("INSERT INTO tblRideLog VALUES (NULL, '$rideid', '$timestamp', '$user->id', '0', $special);"); //Insert into DB, autonumber id, $rideid, $timestamp, user id, valid ride, special
-		echo("\n\t\t<div id=\"notice\">Added a ride on \""); //Open output Notice Box to state that ride has been added
-		$result = mysql_query("SELECT * FROM tblRideList WHERE idsRide = $rideid"); //Retrieve ride information from DB
-		$num_rows = mysql_num_rows($result);
-		while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-			if($row['ysnTheRide'] == 1) {
-				echo('The ');
-			}
-			echo($row['chrRideName']);
-		}
-		echo("\" at $time on $date.</div>"); //Output date/time of occurrence and close Notice Box
+		// if we submitted with button-yes, then it's not a special
+		// otherwise, the special ID is on the end of the button's name
+		// (and is now called $btn_name - see above)
 		
-	//If $ridetaken not set, then create form to add ride occurence to DB instead.
+		$special = 'null';
+		if ($btn_name != 'yes') {
+			$special = ''.(int)$btn_name;	// cast to int and back again to ensure it's safe
+			
+			$sql = "select chrName from tblSpecialType where idsSpecialType = $special";
+			$result = mysql_query($sql);
+			if ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+				$special_name = $row['chrName'];
+			} else {
+				die ('That special type doesn\'t exist!');
+			}
+		}
+		
+		$sql = "insert into tblRideLog values (NULL, '$rideid', '$timestamp', '$user->id', '0', $special)";
+		//die($sql);
+		if (mysql_query($sql)) {
+			// added successfully; get ride information to display
+			$result = mysql_query("SELECT * FROM tblRideList WHERE idsRide = $rideid");
+			if ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+				$ridename = $row['chrRideName'];
+				if ($row['ysnTheRide'] == 1)
+					$ridename = 'The '.$ridename;
+				if (isset($special_name))
+					$ridename .= " ($special_name)";
+			}
+		}
+		
+		echo("\n\t\t<div id=\"notice\">Added a ride on \"$ridename\" at $time on $date.</div>");
 	} else {
+		//If $ridetaken not set, then create form to add ride occurence to DB instead.
 		$result = mysql_query("select * from tblRideList where idsRide = $rideid");
 		if ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
 			// ride name
@@ -55,11 +90,8 @@
 				<input type="hidden" name="rideid" value="<?=$rideid?>" />
 				<input type="hidden" name="ridetaken" value="true" />
 				<input type="submit" name="button-yes" id="button-yes" value="Yes" />
-			</form>
-			<form action="ridelist.php" method="get">
 				<input type="hidden" name="parkid" value="<?=$parkid?>" />
-				<input type="submit" id="button-no" value="No" />
-			</form>
+				<input type="submit" name="button-no" id="button-no" value="No" />
 
 <?php
 			// create extra buttons for any relevant specials
@@ -69,15 +101,11 @@
 				$name = $row2['chrName'];
 				$shortname = $row2['chrShortName'];
 ?>
-			<form action="addride.php" method="post">
-				<input type="hidden" name="rideid" value="<?=$rideid?>" />
-				<input type="hidden" name="special" value="<?=$id?>" />
 				<input type="hidden" name="ridetaken" value="true" />
-				<input type="submit" name="button-<?=$shortname?>" id="button-<?=$shortname?>" value="<?=$name?>" />
-			</form>
+				<input type="submit" name="button-<?=$id?>" id="button-<?=$shortname?>" value="<?=$name?>" />
 <?php
 			}
-		echo '</div>';
+		echo '</form></div>';
 		} else {
 			echo 'Couldn\'t get data from the database.';
 		}
