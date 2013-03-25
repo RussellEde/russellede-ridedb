@@ -8,7 +8,7 @@
 	
 	<?php
 		if ($refresh !== null)
-			echo("<meta http-equiv=\"refresh\" content=\"2;url=$refresh\">");
+			echo("<meta http-equiv=\"refresh\" content=\"2;url=$refresh\" />");
 	?>
 </head>
 <body>
