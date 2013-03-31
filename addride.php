@@ -15,6 +15,7 @@
 	}
 	
 	if ($ridetaken) {
+		$pagetitle = 'Adding Ride';
 		// form has been submitted; find out what the name of the button was
 		foreach (array_keys($_POST) as $key) {
 			if (substr($key, 0, 6) == 'button')
@@ -33,6 +34,8 @@
 		
 		// we did take the ride; we'll want an auto-refresh after we display the message
 		$refresh = "ridelist.php?parkid=$parkid";
+	} else {
+		$pagetitle = 'Ride Information & Log';
 	}
 	
 	include('includes/header.php');
@@ -88,6 +91,7 @@
 			if ($row['ysnTheRide']) $ridename = 'The '.$ridename;
 			
 			$timestamp = date('Y-m-d H:i:s');
+			if($detect->isMobile()) {
 ?>
 		<div id="notice">Confirmation Required</div>
 		<div id="form">
@@ -134,6 +138,34 @@
 			</form>
 		</div>
 <?php
+			} else {
+?>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Ride Details</th>
+					<th>Edit / Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+					$row_count = 1;
+					$result = mysql_query("SELECT * FROM tblRideList, tblRideLog LEFT JOIN tblSpecialType ON tblSpecialType.idsSpecialType = tblRideLog.intSpecialID WHERE tblRideList.idsRide = tblRideLog.intRideID  AND tblRideList.idsRide = $rideid");
+					$num_rows = mysql_num_rows($result);
+					while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+						if($row_count > 1) { echo("\n\t\t\t\t"); }
+						echo("<tr>\n\t\t\t\t\t<td>$row[dtmRideDate]</td>\n\t\t\t\t\t<td>");
+						if(is_null($row['chrName'])) { echo('&nbsp;'); } else { echo("$row[chrName]"); }
+						echo("</td>\n\t\t\t\t\t<td>E / X</td>\n\t\t\t\t</tr>");
+						if($row_count == $num_rows) { echo("\n"); }
+						$row_count++;
+					}
+				?>
+			</tbody>
+		</table><?php
+			}
 		}
 	}
 	

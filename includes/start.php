@@ -3,11 +3,13 @@
 	
 	// bring in some other files
 	require_once("lumos/lumos.php");		// user management and MySQL connection information
-	require_once('includes/config.php');	// general configuration
-	require_once('includes/functions.php');	// common functions
+	require_once('includes/config.php');		// general configuration
+	require_once('includes/functions.php');		// common functions
+	require_once('includes/Mobile_Detect.php');	// Library to detect whether user is on a mobile device.
 	
 	// set up some global variables	
 	$currentpage = basename($_SERVER['SCRIPT_NAME']);
+	$detect = new Mobile_Detect();
 	
 	// check to see whether the user is logged in, and kick them out if not
 	// this can be overridden with define('NOLOGIN', 1)

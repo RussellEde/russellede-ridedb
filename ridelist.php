@@ -9,6 +9,7 @@
 	
 	//If no Park selected, list all Parks «In future, add country selection page»
 	if($parkid == 0) {
+		$pagetitle = 'Theme Park Listings';
 		require('includes/header.php');
 		echo("\n");
 		$result = mysql_query("SELECT * FROM tblParkList ORDER BY chrParkName ASC"); //List all appropriate parks alphabetically
@@ -31,9 +32,10 @@
 	
 	//If a Park selected, list all appropriate Rides
 	if($parkid != 0) {
+		$pagetitle = 'Ride Listings for ';
 		$result = mysql_query("select * from tblParkList where idsPark = $parkid");
 		if ($row = mysql_fetch_array($result, MYSQL_ASSOC))
-			$title = $row['chrParkName'];
+			$pagetitle = $pagetitle.$row['chrParkName'];
 		else
 			die('Invalid park ID');
 		
