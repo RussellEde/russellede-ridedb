@@ -36,6 +36,8 @@ select distinct park from (
 		join tblParkList pl on rl.intParkID = pl.idsPark
 	where
 		rlog.intUserID = $uid
+	and
+		rlog.ysnInvalidateRide = 0
 ) as trips
 where
 	tripdate = '$date'

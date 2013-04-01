@@ -152,7 +152,7 @@
 			<tbody>
 				<?php
 					$row_count = 1;
-					$result = mysql_query("SELECT * FROM tblRideList, tblRideLog LEFT JOIN tblSpecialType ON tblSpecialType.idsSpecialType = tblRideLog.intSpecialID WHERE tblRideList.idsRide = tblRideLog.intRideID  AND tblRideList.idsRide = $rideid");
+					$result = mysql_query("SELECT * FROM tblRideList, tblRideLog LEFT JOIN tblSpecialType ON tblSpecialType.idsSpecialType = tblRideLog.intSpecialID WHERE tblRideList.idsRide = tblRideLog.intRideID  AND tblRideList.idsRide = $rideid AND tblRideLog.ysnInvalidateRide = 0 AND intUserID = $user->id");
 					$num_rows = mysql_num_rows($result);
 					while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
 						if($row_count > 1) { echo("\n\t\t\t\t"); }

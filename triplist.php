@@ -29,6 +29,8 @@ from
 	join tblParkList pl on rl.intParkID = pl.idsPark
 where
 	rlog.intUserID = $uid
+	and
+		rlog.ysnInvalidateRide = 0
 order by tripdate desc
 EOF;
 
