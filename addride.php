@@ -91,7 +91,7 @@
 			if ($row['ysnTheRide']) $ridename = 'The '.$ridename;
 			
 			$timestamp = date('Y-m-d H:i:s');
-			if($detect->isMobile()) {
+			if($is_mobile) {
 ?>
 		<div id="notice">Confirmation Required</div>
 		<div id="form">

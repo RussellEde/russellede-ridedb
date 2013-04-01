@@ -10,6 +10,7 @@
 	// set up some global variables	
 	$currentpage = basename($_SERVER['SCRIPT_NAME']);
 	$detect = new Mobile_Detect();
+	$is_mobile = $detect->isMobile();
 	
 	// check to see whether the user is logged in, and kick them out if not
 	// this can be overridden with define('NOLOGIN', 1)

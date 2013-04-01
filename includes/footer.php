@@ -1,6 +1,6 @@
 <?php
 	//RideDB Footer Page [includes/footer.php]
-	if (($showlogout) AND ($detect->isMobile())) {
+	if (($showlogout) AND ($is_mobile)) {
 		?>
 		
 		<a href="logout.php">&raquo; Logout</a>
@@ -9,7 +9,7 @@
 ?>
 
 	</div>
-	</div><?php if(!$detect->isMobile()) { ?>
+	</div><?php if(!$is_mobile) { ?>
 
 	<div id="footer">RideDB System: &copy; 2013 Russell Ede & Thomas Preece.</div>
 <?php } ?>
