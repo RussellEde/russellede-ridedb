@@ -9,65 +9,27 @@
 	
 	//If no Park selected, list all Parks «In future, add country selection page»
 	if($parkid == 0) {
+		$pagetitle = 'Theme Park Listings';
 		require('includes/header.php');
 		echo("\n");
-		$result = mysql_query("SELECT * FROM tblParkList ORDER BY chrParkName ASC"); //List all appropriate parks alphabetically
-		$num_rows = mysql_num_rows($result);
-		while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-			if($count == 1) {
-				echo("\t\t<ol>"); //If first-row, then start an ordered list
-			}
-			echo("\n\t\t\t<li><a href=\"ridelist.php?parkid=$row[idsPark]\">$row[chrParkName]</a>"); //Start a list entry and return park name (link to ride listing for park)
-			if($count == $num_rows) {
-				echo('.'); //If last-row, then end with a full-stop
-			} else {
-				echo(','); //Else, end with a comma
-			}
-			echo('</li>'); //Close list entry
-			$count++; //Increase row counter
-		}
-		echo("\n\t\t</ol>"); //Close ordered list
+		$query = "SELECT idsPark as Value, chrParkName as String FROM tblParkList ORDER BY chrParkName ASC"; //List all appropriate parks alphabetically
+		data_list($query, NULL, 0);
 	}
 	
 	//If a Park selected, list all appropriate Rides
 	if($parkid != 0) {
+		$pagetitle = 'Ride Listings for ';
 		$result = mysql_query("select * from tblParkList where idsPark = $parkid");
 		if ($row = mysql_fetch_array($result, MYSQL_ASSOC))
-			$title = $row['chrParkName'];
+			$pagetitle = $pagetitle.$row['chrParkName'];
 		else
 			die('Invalid park ID');
 		
 		require('includes/header.php');
 		
 		echo("\n\t\t<a href=\"ridelist.php\">&laquo; Back to Park List</a>\n"); //Link to Park listings
-		$result = mysql_query("SELECT * FROM tblRideList WHERE intParkID = $parkid AND ysnClosed = 0 ORDER BY chrRideName ASC"); //List all appropriate rides alphabetically
-		$num_rows = mysql_num_rows($result);
-		while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-			if($count == 1) {
-				echo("\t\t<ol>"); //If first-row, then start an ordered list
-			}
-			echo("\n\t\t\t<li>");
-			//Check if Ride has been ridden today
-			$start_of_day = strtotime('midnight');
-			$check_ride_query = mysql_query("SELECT dtmRideDate FROM tblRideLog WHERE dtmRideDate > $start_of_day AND intRideID = $row[idsRide] AND intUserID = $user->id");
-			$check_ride_number = mysql_num_rows($check_ride_query);
-			if($check_ride_number != 0) {
-				?><img alt="Y" src="images/tick.png" /> <?php
-			}
-			echo("<a href=\"addride.php?rideid=$row[idsRide]\">"); //Start a list entry and open link to add ride occurance page
-			if($row['ysnTheRide'] == 1) {
-				echo('The '); //Add word 'The' if ride has an article name
-			}
-			echo("$row[chrRideName]</a>"); //Return ride name
-			if($count == $num_rows) {
-				echo('.'); //If last-row, then end with a full-stop
-			} else {
-				echo(','); //Else, end with a comma
-			}			
-			echo('</li>'); //Close list entry
-			$count++; //Increase row counter
-		}
-		echo("\n\t\t</ol>"); //Close ordered list
+		$query = "SELECT idsRide as Value, chrRideName as String, ysnTheRide as Prefix FROM tblRideList WHERE intParkID = $parkid AND ysnClosed = 0 ORDER BY chrRideName ASC"; //List all appropriate rides alphabetically
+		data_list($query, $parkid, 0);
 	}
 	
 	include('includes/footer.php');
