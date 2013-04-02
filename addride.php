@@ -91,7 +91,6 @@
 			if ($row['ysnTheRide']) $ridename = 'The '.$ridename;
 			
 			$timestamp = date('Y-m-d H:i:s');
-			if($is_mobile) {
 ?>
 		<div id="notice">Confirmation Required</div>
 		<div id="form">
@@ -138,7 +137,7 @@
 			</form>
 		</div>
 <?php
-			} else {
+			if(!$is_mobile) {
 				$query = "SELECT tblRideLog.dtmRideDate, tblSpecialType.chrName  FROM tblRideList, tblRideLog LEFT JOIN tblSpecialType ON tblSpecialType.idsSpecialType = tblRideLog.intSpecialID WHERE tblRideList.idsRide = tblRideLog.intRideID  AND tblRideList.idsRide = $rideid AND tblRideLog.ysnInvalidateRide = 0 AND intUserID = $user->id";
 				data_table($query, 1);
 			}

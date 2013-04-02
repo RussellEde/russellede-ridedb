@@ -111,7 +111,7 @@
 			echo("\n\t\t\t\t<tr>");
 			while($field_count <= $num_fields) {
 				$field_number = $field_count-1;
-				$field_data = $row[${field_number}];
+				@$field_data = $row[${field_number}];
 				$field_type = mysql_field_name($result, $field_number);
 				$field_type = substr($field_type,0,3);
 				if($field_type == "dtm") { $field_data = date('d-m-y h:i',$field_data); }

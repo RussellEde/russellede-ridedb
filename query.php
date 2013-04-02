@@ -37,11 +37,11 @@
 			//Check if Ride has been ridden today
 			if(isset($parkid)) {
 				$start_of_day = strtotime('midnight');
-				$check_ride_query = mysql_query("SELECT dtmRideDate FROM tblRideLog WHERE dtmRideDate > $start_of_day AND intRideID = $row[idsRide] AND intUserID = $user->id");
+			/*	$check_ride_query = mysql_query("SELECT dtmRideDate FROM tblRideLog WHERE dtmRideDate > $start_of_day AND intRideID = $row[idsRide] AND intUserID = $user->id");
 				$check_ride_number = mysql_num_rows($check_ride_query);
 				if($check_ride_number != 0) {
 					?><img alt="Y" src="images/tick.png" /> <?php
-				}
+				} */
 			}
 			if($nolink == 0) {
 				echo('<a href="');
@@ -70,7 +70,8 @@
 			echo("$row[String]"); //Return String Value
 			if((isset($row['Count'])) AND ($row['Count'] > 1)) {
 				$extraparks = $row['Count']-1;
-				echo(" (+$extraparks Others)");
+				echo(" (+$extraparks Other");
+				if($row['Count'] == 2) { echo('s)'); } else { echo(')'); }
 			} elseif (isset($row['Specials'])) {
 				echo(" ($row[Specials])");
 			}
@@ -94,12 +95,12 @@
 		$section_title = 'Parks Visited';
 		$query = "SELECT DISTINCT String FROM (SELECT DISTINCT date(from_unixtime(rlog.dtmRideDate)) AS tripdate, rlog.dtmRideDate AS ridedate, pl.chrParkName AS String FROM tblRideLog rlog JOIN tblRideList rl ON rlog.intRideID = rl.idsRide JOIN tblParkList pl on rl.intParkID = pl.idsPark WHERE rlog.intUserID = $uid AND rlog.ysnInvalidateRide = 0) AS trips WHERE tripdate = '$date' ORDER BY ridedate ASC";
 		$nolink = 1;
-		$section_title = array($section_title, "Rides Ridden");
-		$query = array($query,"SELECT * FROM (SELECT DISTINCT DATE(from_unixtime(rlog.dtmRideDate)) AS Date, rlog.intRideID AS Value, rlog.dtmRideDate AS RideTime, rl.chrRideName AS String, st.chrName AS Specials FROM tblRideLog rlog JOIN tblRideList rl ON rlog.intRideID = rl.idsRide JOIN tblParkList pl ON rl.intParkID = pl.idsPark LEFT JOIN tblSpecialType st ON rlog.intSpecialID = st.idsSpecialType WHERE rlog.intUserID = $uid) AS Trips WHERE Date = '$date' ORDER BY RideTime ASC");
+		$section_title_array = array($section_title, "Rides Ridden");
+		$query_array = array($query, "SELECT * FROM (SELECT DISTINCT DATE(from_unixtime(rlog.dtmRideDate)) AS Date, rlog.intRideID AS Value, rlog.dtmRideDate AS RideTime, rl.chrRideName AS String, st.chrName AS Specials FROM tblRideLog rlog JOIN tblRideList rl ON rlog.intRideID = rl.idsRide JOIN tblParkList pl ON rl.intParkID = pl.idsPark LEFT JOIN tblSpecialType st ON rlog.intSpecialID = st.idsSpecialType WHERE rlog.intUserID = $uid) AS Trips WHERE Date = '$date' ORDER BY RideTime ASC");
 		if($is_mobile) {
-			$nolink = array($nolink, 1);
+			$nolink_array = array($nolink, 1);
 		} else {
-			$nolink = array($nolink, 0);
+			$nolink_array = array($nolink, 0);
 		}
 	} elseif($triplist == 1) {
 	//Lists all trips by an user
@@ -123,16 +124,12 @@
 	}
 	require('includes/header.php');
 	if(isset($first_list)) { echo("$first_list"); }
-	if(is_array($query)) {
-		$row_count = 0;
-		$num_rows = count($query);
-		$num_rows-1;
-		while($row_count < $num_rows) {
+	if(isset($query_array)) {
+		foreach($query_array AS $index => $query) {
 			echo('<h2>');
-			echo($section_title[${row_count}]);
+			echo($section_title_array[$index]);
 			echo('</h2>');
-			data_list($query[${row_count}], $parkid, $nolink[${row_count}]);
-			$row_count++;
+			data_list($query, $parkid, $nolink_array[$index]);
 		}
 	} else {
 		data_list($query, $parkid, $nolink);
