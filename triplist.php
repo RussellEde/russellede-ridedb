@@ -3,8 +3,8 @@
 	require('includes/start.php');
 	
 	$my = 'My';
-		
-	$uid = get_int_param('uid');
+
+	$uid = get_int_param('uid');		
 	if (($uid === NULL) || ($uid == $user->id)) {
 		$uid = $user->id;
 	} else {
@@ -18,43 +18,10 @@
 	
 	$title = "$my Trips";
 	include('includes/header.php');
-	
-	$sql = <<<EOF
-select distinct
-	date(from_unixtime(rlog.dtmRideDate)) as tripdate,
-	pl.chrParkName as park
-from
-	tblRideLog rlog
-	join tblRideList rl on rlog.intRideID = rl.idsRide
-	join tblParkList pl on rl.intParkID = pl.idsPark
-where
-	rlog.intUserID = $uid
-	and
-		rlog.ysnInvalidateRide = 0
-order by tripdate desc
-EOF;
 
-?><ul><?php
-	$result = mysql_query($sql);
-	$date = '';
-	$parks = '';
-	while (true) {
-		if (!$row = mysql_fetch_array($result, MYSQL_ASSOC))
-			break;
-		
-		if ($row['tripdate'] == $date) {
-			$parks .= ', '.$row['park'];
-		} else {
-			if ($date != '')
-				echo "<li><a href=\"trip.php?uid=$uid&amp;date=$date\">$date - $parks</a></li>";
-			$date = $row['tripdate'];
-			$parks = $row['park'];
-		}
-	}
-	
-	if ($date != '')
-		echo "<li><a href=\"trip.php?uid=$uid&amp;date=$date\">$date - $parks</a></li>";
-?></ul><?php
+	$query = "SELECT DISTINCT date(from_unixtime(rlog.dtmRideDate)) AS Date, pl.chrParkName as String, COUNT(DISTINCT pl.chrParkName) as Count FROM tblRideLog rlog JOIN tblRideList rl ON rlog.intRideID = rl.idsRide JOIN tblParkList pl ON rl.intParkID = pl.idsPark WHERE rlog.intUserID = $uid AND rlog.ysnInvalidateRide = 0 GROUP BY Date ORDER BY Date ASC";
+
+	data_list($query, NULL, 0);
 
 	//Include footer file
 	include('includes/footer.php');
