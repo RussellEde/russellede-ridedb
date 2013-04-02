@@ -29,8 +29,12 @@
 	
 	echo '<h2>Rides Ridden</h2>';
 	
-	$query = "SELECT * FROM (SELECT DISTINCT DATE(from_unixtime(rlog.dtmRideDate)) AS Date, rlog.dtmRideDate AS RideTime, rl.chrRideName AS String, st.chrName AS Specials FROM tblRideLog rlog JOIN tblRideList rl ON rlog.intRideID = rl.idsRide JOIN tblParkList pl ON rl.intParkID = pl.idsPark LEFT JOIN tblSpecialType st ON rlog.intSpecialID = st.idsSpecialType WHERE rlog.intUserID = $uid) AS Trips WHERE Date = '$date' ORDER BY RideTime ASC";
-	data_list($query, NULL, 0);
+	$query = "SELECT * FROM (SELECT DISTINCT DATE(from_unixtime(rlog.dtmRideDate)) AS Date, rlog.intRideID AS Value, rlog.dtmRideDate AS RideTime, rl.chrRideName AS String, st.chrName AS Specials FROM tblRideLog rlog JOIN tblRideList rl ON rlog.intRideID = rl.idsRide JOIN tblParkList pl ON rl.intParkID = pl.idsPark LEFT JOIN tblSpecialType st ON rlog.intSpecialID = st.idsSpecialType WHERE rlog.intUserID = $uid) AS Trips WHERE Date = '$date' ORDER BY RideTime ASC";
+	if($is_mobile) {
+		data_list($query, NULL, 1);
+	} else {
+		data_list($query, NULL, 0);
+	}
 
 	include('includes/footer.php');
 

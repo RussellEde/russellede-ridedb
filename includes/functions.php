@@ -100,7 +100,7 @@
 			}
 			if($nolink == 0) {
 				echo('<a href="');
-				if(($currentpage == "ridelist.php") AND (isset($parkid))) {
+				if(($currentpage == "trip.php") OR (($currentpage == "ridelist.php") AND (isset($parkid)))) {
 					echo("addride.php?rideid=$row[Value]"); //Start a list entry and open link to add ride occurance page
 				} elseif($currentpage == "ridelist.php") {
 					echo("ridelist.php?parkid=$row[Value]"); //Start a list entry and open link to ride list for that park
@@ -117,6 +117,10 @@
 				$textdate = strtotime($date);
 				$textdate = date('d-m-y', $textdate);
 				echo("$textdate: ");
+			}
+			if(isset($row['RideTime'])) {
+				$ridetime = date('H:i',$row['RideTime']);
+				echo("$ridetime: ");
 			}
 			echo("$row[String]"); //Return String Value
 			if((isset($row['Count'])) AND ($row['Count'] > 1)) {
