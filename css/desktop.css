@@ -130,3 +130,19 @@ fieldset.hidden {
 img {
 	border: 0px;
 }
+td.data_table {
+	background-color: #efefef;
+	min-width: 200px;
+	text-align: center;
+}
+td.data_table_r2 {
+	background-color: #f7f7f7;
+	min-width: 200px;
+	text-align: center;
+}
+th.data_table {
+	background-color: #cc0000;
+	color: #ffffff;
+	min-width: 200px;
+	text-align: center;
+}

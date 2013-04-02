@@ -139,32 +139,8 @@
 		</div>
 <?php
 			} else {
-?>
-
-		<table>
-			<thead>
-				<tr>
-					<th>Date</th>
-					<th>Ride Details</th>
-					<th>Edit / Delete</th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php
-					$row_count = 1;
-					$result = mysql_query("SELECT * FROM tblRideList, tblRideLog LEFT JOIN tblSpecialType ON tblSpecialType.idsSpecialType = tblRideLog.intSpecialID WHERE tblRideList.idsRide = tblRideLog.intRideID  AND tblRideList.idsRide = $rideid AND tblRideLog.ysnInvalidateRide = 0 AND intUserID = $user->id");
-					$num_rows = mysql_num_rows($result);
-					while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-						if($row_count > 1) { echo("\n\t\t\t\t"); }
-						echo("<tr>\n\t\t\t\t\t<td>$row[dtmRideDate]</td>\n\t\t\t\t\t<td>");
-						if(is_null($row['chrName'])) { echo('&nbsp;'); } else { echo("$row[chrName]"); }
-						echo("</td>\n\t\t\t\t\t<td>E / X</td>\n\t\t\t\t</tr>");
-						if($row_count == $num_rows) { echo("\n"); }
-						$row_count++;
-					}
-				?>
-			</tbody>
-		</table><?php
+				$query = "SELECT tblRideLog.dtmRideDate, tblSpecialType.chrName  FROM tblRideList, tblRideLog LEFT JOIN tblSpecialType ON tblSpecialType.idsSpecialType = tblRideLog.intSpecialID WHERE tblRideList.idsRide = tblRideLog.intRideID  AND tblRideList.idsRide = $rideid AND tblRideLog.ysnInvalidateRide = 0 AND intUserID = $user->id";
+				data_table($query, 1);
 			}
 		}
 	}

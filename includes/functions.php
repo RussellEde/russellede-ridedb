@@ -142,3 +142,66 @@
 		}
 		echo("\n\t\t</ol>"); //Close ordered list
 	}
+	
+	function data_table($query, $edit_delete) {
+		$result = mysql_query($query);
+		$num_fields = mysql_num_fields($result);
+		$field_count = 1;
+		$num_rows = mysql_num_rows($result);
+		$row_count = 1;
+		echo("\n\t\t<table>\n\t\t\t<thead>\n\t\t\t\t<tr>");
+		while($field_count <= $num_fields) {
+			echo("\n\t\t\t\t\t<th class=\"data_table\">");
+			$field_number = $field_count - 1;
+			$field_table = mysql_field_table($result, $field_number);
+			$field_name = mysql_field_name($result, $field_number);
+			$field_result = mysql_query("SELECT COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_NAME = '$field_table' AND COLUMN_NAME = '$field_name'");
+			$field_row = mysql_fetch_row($field_result);
+			$field_comment = str_replace("Ride Log ","",$field_row[0]);
+			$field_comment = str_replace("Special Ride Type Name","Ride Details",$field_comment);
+			echo("$field_comment</th>");
+			if($field_count == $num_fields) {
+				$field_count = 1;
+				break;
+			} else {
+				$field_count++;
+			}
+		}
+		if($edit_delete == 1) {
+			echo("\n\t\t\t\t\t<th class=\"data_table\">Edit / Delete</th>");
+		}
+		echo("\n\t\t\t</thead>\n\t\t\t<tbody>");
+		$row_count = 1;
+		while($row = mysql_fetch_array($result, MYSQL_NUM)) {
+			echo("\n\t\t\t\t<tr>");
+			while($field_count <= $num_fields) {
+				$field_number = $field_count-1;
+				$field_data = $row[${field_number}];
+				$field_type = mysql_field_name($result, $field_number);
+				$field_type = substr($field_type,0,3);
+				if($field_type == "dtm") { $field_data = date('d-m-y h:i',$field_data); }
+				if($field_data == NULL) { $field_data = "N/A"; }
+				echo("\n\t\t\t\t\t<td class=\"data_table");
+				if(!($row_count & 1)) {
+					echo('_r2');
+				}
+				echo("\">$field_data</td>");
+				if($field_count == $num_fields) {
+					$field_count = 1;
+					break;
+				} else {
+					$field_count++;
+				}
+			}
+			if($edit_delete == 1) {
+				echo("\n\t\t\t\t\t<td class=\"data_table");
+				if(!($row_count & 1)) {
+					echo('_r2');
+				}
+				echo('">E / X</td>');
+			}
+			echo("\n\t\t\t\t</tr>");
+			$row_count++;
+		}
+		echo("\n\t\t\t</tbody>\n\t\t</table>");
+	}
