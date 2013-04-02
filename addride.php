@@ -15,6 +15,7 @@
 	}
 	
 	if ($ridetaken) {
+		$pagetitle = 'Adding Ride';
 		// form has been submitted; find out what the name of the button was
 		foreach (array_keys($_POST) as $key) {
 			if (substr($key, 0, 6) == 'button')
@@ -33,6 +34,8 @@
 		
 		// we did take the ride; we'll want an auto-refresh after we display the message
 		$refresh = "ridelist.php?parkid=$parkid";
+	} else {
+		$pagetitle = 'Ride Information & Log';
 	}
 	
 	include('includes/header.php');
@@ -88,6 +91,7 @@
 			if ($row['ysnTheRide']) $ridename = 'The '.$ridename;
 			
 			$timestamp = date('Y-m-d H:i:s');
+			if($is_mobile) {
 ?>
 		<div id="notice">Confirmation Required</div>
 		<div id="form">
@@ -134,6 +138,10 @@
 			</form>
 		</div>
 <?php
+			} else {
+				$query = "SELECT tblRideLog.dtmRideDate, tblSpecialType.chrName  FROM tblRideList, tblRideLog LEFT JOIN tblSpecialType ON tblSpecialType.idsSpecialType = tblRideLog.intSpecialID WHERE tblRideList.idsRide = tblRideLog.intRideID  AND tblRideList.idsRide = $rideid AND tblRideLog.ysnInvalidateRide = 0 AND intUserID = $user->id";
+				data_table($query, 1);
+			}
 		}
 	}
 	
